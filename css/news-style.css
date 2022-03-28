@@ -1,0 +1,67 @@
+.news-card {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.news-card > h2,
+.news-card > div {
+  flex-basis: 50%;
+}
+.news-card__content {
+  margin-bottom: 30px;
+}
+.news-card__date {
+  color: var(--indigo-color);
+}
+.news-card__text {
+  white-space: pre-line;
+}
+.news-card__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.footer__source-link {
+  margin: 25px 0 0;
+  color: var(--indigo-color);
+  text-decoration-line: underline;
+  cursor: pointer;
+}
+.like-icon__container {
+  margin-top: 40px;
+  padding: 3px 12px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  background-color: var(--grey-color);
+  border-radius: 41px;
+}
+.likes_counter__count {
+  margin: 0 10px;
+  font-size: 1.3em;
+  line-height: 32px;
+}
+.like-icon {
+  cursor: pointer;
+  border-radius: 2px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+.like-icon svg {
+  height: 28px;
+  width: 28px;
+  fill: #25469F;
+}
+.like-icon:hover svg {
+  fill: #4062bd;
+}
+.like-icon.like-icon_active svg {
+  fill: #cb3457;
+}
+@media screen and (max-width: 750px) {
+  .news-card {
+    flex-direction: column;
+  }
+}
