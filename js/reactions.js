@@ -39,9 +39,18 @@ function saveLikesToLocalStorage(postId) {
     setToLocalStorage(likedPostsKey, omit(postId, likedPosts));
     return;
   }
+  sendApiRequest(postId)
   setToLocalStorage(likedPostsKey, {
     ...likedPosts,
     [postId]: true
+  });
+}
+
+function sendApiRequest(postId) {
+  fetch(baseUrl, {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'}, 
+    body: JSON.stringify(postId)
   });
 }
 
