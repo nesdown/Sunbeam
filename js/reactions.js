@@ -33,13 +33,13 @@ function likeAPost(postId) {
   saveLikesToLocalStorage(postId);
 }
 
-async function saveLikesToLocalStorage(postId) {
+function saveLikesToLocalStorage(postId) {
   const likedPosts = getFromLocalStorage(likedPostsKey);
   if (likedPosts[postId]) {
     setToLocalStorage(likedPostsKey, omit(postId, likedPosts));
     return;
   }
-  await sendApiRequest(postId)
+  sendApiRequest(postId)
   setToLocalStorage(likedPostsKey, {
     ...likedPosts,
     [postId]: true
@@ -50,7 +50,6 @@ async function sendApiRequest(postId) {
   await fetch(baseUrl, {
     method: "POST",
     headers: {'Content-Type': 'application/json'},
-    mode: 'cors',
     body: JSON.stringify({ postId: postId })
   }).then(res => {
     console.log("Request complete! response:", res);
