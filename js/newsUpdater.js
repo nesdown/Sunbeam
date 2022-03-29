@@ -9,9 +9,11 @@ const suspenseSel = ".suspense";
 const hiddenClass = 'hidden';
 const baseUrl =
   "https://ukrainiansunbeamsite20220323224611.azurewebsites.net/news";
-const getNextIdParams = (nextId) => nextId ? `?id=${nextId}` : ''
+const getNextIdParams = (nextId) => nextId ? `&id=${nextId}` : ''
   const urlPaths = {
-  nextId: (nextId) => `${baseUrl}/nextId${getNextIdParams(nextId)}`,
+  getUserIp: () => 'https://api.ipify.org/',  
+  nextId: ({nextId, userIp}) => 
+  `${baseUrl}/nextId?userIp=${userIp}${getNextIdParams(nextId)}`,
   getNewsById: (id) => `${baseUrl}?id=${id}`
 };
 
@@ -60,7 +62,12 @@ const responseMock = {
   likes: 0
 };
 async function loadNews(nextId) {
-  const id = await fetch(urlPaths.nextId(nextId)).then((response) => response.text());
+  const userIp = await fetch( urlPaths.getUserIp())
+  .then(response => response.text());
+  const id = await fetch(urlPaths.nextId({
+    nextId, 
+    userIp,
+  })).then((response) => response.text());
   const data = await fetch(urlPaths.getNewsById(id))
     .then((response) => response.json())
     .catch((error) => {

@@ -1,3 +1,4 @@
+const likeIconContainerSel = '.like-icon__container';
 const likeIconSel = ".like-icon";
 const likeIconActiveClass = "like-icon_active";
 const newsCardSelector = ".news-card";
@@ -11,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("click", ({ target }) => {
-  if (target.closest(likeIconSel)) {
+  if (target.closest(likeIconContainerSel)) {
     const newsId = target
       .closest(newsCardSelector)
       .getAttribute(newsIdAttributeName);
