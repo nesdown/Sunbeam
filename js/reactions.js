@@ -47,9 +47,8 @@ function saveLikesToLocalStorage(postId) {
 }
 
 async function sendApiRequest(postId) {
-  await fetch(baseUrl, {
+  await fetch(`${baseUrl}?id=${postId}`, {
     method: "POST",
-    body: JSON.stringify({ id: postId })
   });
 }
 
