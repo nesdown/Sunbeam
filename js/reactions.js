@@ -33,24 +33,26 @@ function likeAPost(postId) {
   saveLikesToLocalStorage(postId);
 }
 
-function saveLikesToLocalStorage(postId) {
+async function saveLikesToLocalStorage(postId) {
   const likedPosts = getFromLocalStorage(likedPostsKey);
   if (likedPosts[postId]) {
     setToLocalStorage(likedPostsKey, omit(postId, likedPosts));
     return;
   }
-  sendApiRequest(postId)
+  await sendApiRequest(postId)
   setToLocalStorage(likedPostsKey, {
     ...likedPosts,
     [postId]: true
   });
 }
 
-function sendApiRequest(postId) {
-  fetch(baseUrl, {
+async function sendApiRequest(postId) {
+  await fetch(baseUrl, {
     method: "POST",
     headers: {'Content-Type': 'application/json'}, 
     body: JSON.stringify(postId)
+  }).then(res => {
+    console.log("Request complete! response:", res);
   });
 }
 
