@@ -56,9 +56,25 @@
     margin-bottom: 30px;
     padding-right: 55px;
   }
+  button .desktop-label {
+    display: none;
+  }
+  button .mobile-label {
+    display: block;
+  }
 }
 @media screen and (max-width: 450px) {
   section {
     max-width: 380px;
+  }
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+  }
+  #section_news button.big {
+    margin-top: 50px;
+  }
+  #section_news button.big:first-child {
+    margin-top: 85px;
   }
 }
