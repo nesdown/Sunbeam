@@ -39,7 +39,7 @@ function saveLikesToLocalStorage(postId) {
     setToLocalStorage(likedPostsKey, omit(postId, likedPosts));
     return;
   }
-  sendApiRequest(postId)
+  sendApiRequest(postId);
   setToLocalStorage(likedPostsKey, {
     ...likedPosts,
     [postId]: true
