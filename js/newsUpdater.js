@@ -60,6 +60,7 @@ document.addEventListener("click", async ({ target }) => {
 });
 
 const titleField = "title";
+const dateField = "date";
 const contentField = "body";
 const likesCountField = "likes";
 const sourceField = "source";
@@ -196,14 +197,15 @@ function getDOMElementsToClassesMapping() {
         const {
           [sourceField]: sourceHref,
           [likesCountField]: likes,
-          [contentField]: body
+          [contentField]: body,
+          [dateField]: date
         } = data;
         const sourceLinkElem = sourceHref
           ? `<a class="${sourceClass} link bold" href="${sourceHref}">Читати джерело</a>`
           : "";
         return `
           <div class="news-card__content">
-              <div class="news-card__date bold"></div>
+              <div class="news-card__date bold">${formatDate(date)}</div>
               <div class="news-card__text">${body}</div>
               <div class="news-card__footer">
               ${sourceLinkElem}
@@ -232,4 +234,13 @@ function getDOMElementsToClassesMapping() {
       }
     }
   };
+};
+
+function formatDate(dateString) {
+  return new Date(dateString).toLocaleDateString('uk-UA', {
+    day: 'numeric',
+    month: 'long',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
 }
