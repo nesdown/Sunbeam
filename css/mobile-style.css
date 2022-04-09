@@ -62,6 +62,9 @@
   button .mobile-label {
     display: block;
   }
+  .call-to-action {
+    display: none;
+  }
 }
 @media screen and (max-width: 450px) {
   section {

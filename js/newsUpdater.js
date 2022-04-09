@@ -12,6 +12,7 @@ const baseUrl =
   "https://ukrainiansunbeamsite20220323224611.azurewebsites.net/news";
 const arrowSvgText =
   '<svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.55 5.99924H5.55051L8.8753 2.56005C9.00992 2.42079 9.11671 2.25547 9.18957 2.07353C9.26243 1.89158 9.29993 1.69658 9.29993 1.49964C9.29993 1.3027 9.26243 1.1077 9.18957 0.925753C9.11671 0.743808 9.00992 0.578489 8.8753 0.439234C8.74068 0.299979 8.58086 0.189517 8.40497 0.114153C8.22907 0.0387893 8.04055 -2.93457e-09 7.85017 0C7.65978 2.93457e-09 7.47126 0.0387893 7.29537 0.114153C7.11948 0.189517 6.95966 0.29998 6.82504 0.439235L0 7.49911L6.82504 14.559C6.95938 14.6988 7.11911 14.8097 7.29504 14.8854C7.47097 14.961 7.65963 15 7.85017 15C8.04071 15 8.22937 14.961 8.4053 14.8854C8.58123 14.8097 8.74096 14.6988 8.8753 14.559C9.01007 14.4198 9.11699 14.2545 9.18994 14.0726C9.26289 13.8906 9.30044 13.6956 9.30044 13.4986C9.30044 13.3016 9.26289 13.1065 9.18994 12.9246C9.11699 12.7426 9.01007 12.5773 8.8753 12.4382L5.55051 8.99898H16.55C16.9346 8.99898 17.3034 8.84095 17.5753 8.55968C17.8472 8.2784 18 7.8969 18 7.49911C18 7.10132 17.8472 6.71982 17.5753 6.43854C17.3034 6.15726 16.9346 5.99924 16.55 5.99924Z" fill="#25469F"/></svg>';
+const pathToInitialNewsId = '__data.initialNewsId';
 
 const getNextIdParams = (nextId) => (nextId ? `&id=${nextId}` : "");
 const urlPaths = {
@@ -25,9 +26,16 @@ const urlPaths = {
 
 const displayNews = async (fetcher, id) => {
   const news = await fetcher(id);
+  const isInitial = !id;
 
-  updateNews(news, !id);
+  if (isInitial) {
+    window.__data = {};
+    window[pathToInitialNewsId] = news[0].id;
+  }
+  
+  updateNews(news, isInitial);
   updateLikeBtns();
+  updateNewsControls();
   document.querySelectorAll(suspenseSel).forEach((el) => {
     el.classList.add(hiddenClass);
   });
@@ -155,6 +163,17 @@ function createNewsCard(
   return card;
 }
 
+function updateNewsControls() {
+  const newsCards = document.querySelectorAll(`${newsContainerSel} .${newsCardClass}`);
+  Array.from(newsCards).forEach((c) => {
+    const id = c.getAttribute(newsIdAttributeName);
+    if (id === window[pathToInitialNewsId]) {
+      const loadPrevBtn = c.querySelector(`.${loadPrevBtnClass}`);
+      loadPrevBtn.setAttribute('disabled', true);
+    }
+  });
+}
+
 function getElemOptions(className, elemToCreate) {
   return { className, ...elemToCreate[className] };
 }
@@ -180,7 +199,7 @@ function getDOMElementsToClassesMapping() {
           [contentField]: body
         } = data;
         const sourceLinkElem = sourceHref
-          ? `<a class="${sourceClass} bold" href="${sourceHref}">Читати джерело</a>`
+          ? `<a class="${sourceClass} link bold" href="${sourceHref}">Читати джерело</a>`
           : "";
         return `
           <div class="news-card__content">

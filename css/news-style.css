@@ -23,11 +23,13 @@
   align-items: flex-start;
   justify-content: center;
 }
-.footer__source-link {
-  margin: 25px 0 0;
+.link {
   color: var(--indigo-color);
   text-decoration-line: underline;
   cursor: pointer;
+}
+.footer__source-link {
+  margin: 25px 0 0;
 }
 .like-icon__container {
   margin-top: 40px;
